@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+
+# AI model
+local_model/
+
+# ZIP files
+*.zip
+
+# macOS files
+__MACOSX/
+.DS_Store
+
+# Streamlit
+.streamlit/
+# RedRob dataset
+[PUB] India_runs_data_and_ai_challenge/
+*.jsonl

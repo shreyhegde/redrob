@@ -1,0 +1,72 @@
+# Redrob Hackathon — Submission Metadata
+#
+# Filled in for the Intelligent Candidate Discovery & Ranking Challenge submission.
+
+# ============================================================================
+# Team identity
+# ============================================================================
+team_name: "team_antigravity"  # UPDATE this with your official team name
+
+primary_contact:
+  name: "Your Name"           # UPDATE with your name
+  email: "your_email@example.com" # UPDATE with your email
+  phone: "+91-XXXXXXXXXX"     # UPDATE with your phone number
+
+team_members:
+  - name: "Your Name"
+    email: "your_email@example.com"
+    role: "ML Engineer"
+
+# ============================================================================
+# Code and reproducibility
+# ============================================================================
+github_repo: "https://github.com/yourusername/redrob-candidate-ranker" # UPDATE with your github repo
+sandbox_link: "https://huggingface.co/spaces/yourusername/redrob-ranker" # UPDATE with your sandbox link
+
+reproduce_command: "python rank_candidates.py"
+# The single command that produces team_antigravity.csv from candidates.jsonl.
+# Runs end-to-end within 15 seconds on CPU with 16GB RAM and no network.
+
+# ============================================================================
+# Compute environment
+# ============================================================================
+compute:
+  platform: "Local PC"
+  cpu_cores: 4
+  ram_gb: 16
+  python_version: "3.13.0"
+  os: "Windows 11"
+  uses_gpu_for_inference: false
+  has_network_during_ranking: false
+  pre_computation_required: false
+  pre_computation_time_minutes: 0
+
+# ============================================================================
+# AI tools declaration
+# ============================================================================
+ai_tools_used:
+  - "Gemini"
+  - "Other"
+
+ai_usage_summary: |
+  Used Gemini (Antigravity AI coding assistant) for architecture design, implementing data structures, and code generation.
+  All candidate parsing and logical scoring rule logic were developed and tested locally. No candidate data was sent to external APIs.
+
+# ============================================================================
+# Approach summary
+# ============================================================================
+methodology_summary: |
+  Rule-based candidate retrieval and ranking engine designed for high throughput and precision.
+  The engine filters out all impossible honeypots (future dates, duration contradictions, assessment skill mismatches) and blacklists service-only companies and non-matching titles to eliminate keyword stuffers.
+  Candidates are ranked based on a composite score representing role relevance, technical skills match (vector search, embeddings, NLP), experience match (bell curve around 6-8 years), and behavioral signals (recruiter response rate, notice period).
+  Reasoning descriptions are programmatically compiled using specific facts from each candidate's profile.
+
+# ============================================================================
+# Declarations
+# ============================================================================
+declarations:
+  read_submission_spec: true
+  code_is_original_work: true
+  no_collusion: true
+  honeypot_check_done: true
+  reproduction_tested: true
