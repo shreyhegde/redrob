@@ -5,26 +5,31 @@
 # ============================================================================
 # Team identity
 # ============================================================================
-team_name: "team_antigravity"  # UPDATE this with your official team name
+team_name: "Trio Tech"  
 
 primary_contact:
-  name: "Your Name"           # UPDATE with your name
-  email: "your_email@example.com" # UPDATE with your email
-  phone: "+91-XXXXXXXXXX"     # UPDATE with your phone number
+  name: "Shreya S Hegde"           
+  email: "shreyashegde26@gmail.com" 
 
 team_members:
-  - name: "Your Name"
-    email: "your_email@example.com"
-    role: "ML Engineer"
+  - name: "Shreya S Hegde"
+    email: "shreyashegde26@gmail.com"
+    role: "Team Leader"
+  - name: "Swathi R"
+    email: "swathirshettigar2006@gmail.com"
+    role: "Team Member"
+  - name: "Sagar P"
+    email: "sp8424468@gmail.com"
+    role: "Team Member"
 
 # ============================================================================
 # Code and reproducibility
 # ============================================================================
-github_repo: "https://github.com/yourusername/redrob-candidate-ranker" # UPDATE with your github repo
-sandbox_link: "https://huggingface.co/spaces/yourusername/redrob-ranker" # UPDATE with your sandbox link
+github_repo: "https://github.com/shreyhegde/redrob.git" 
+sandbox_link: "https://huggingface.co/spaces/shreyhegde/redrob" 
 
 reproduce_command: "python rank_candidates.py"
-# The single command that produces team_antigravity.csv from candidates.jsonl.
+# The single command that produces trio_tech.csv from candidates.jsonl.
 # Runs end-to-end within 15 seconds on CPU with 16GB RAM and no network.
 
 # ============================================================================

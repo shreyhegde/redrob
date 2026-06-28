@@ -56,15 +56,13 @@ st.markdown("""
 
     /* General App Styling */
     .stApp {
-        background-color: #090d16;
         font-family: 'Inter', sans-serif;
-        color: #cbd5e1;
     }
     
     /* Clean up Streamlit default header decoration & footer */
-    header { visibility: hidden !important; }
+    /* header { visibility: hidden !important; } Removed to allow sidebar toggling */
     footer { visibility: hidden !important; }
-    .stDeployButton { display: none !important; }
+    [data-testid="stAppDeployButton"] { display: none !important; }
     
     /* Headers typography */
     h1, h2, h3, h4, h5, h6, .header-title {
@@ -73,23 +71,24 @@ st.markdown("""
     
     /* Header container */
     .header-container {
-        background: linear-gradient(135deg, #111827 0%, #0d121f 100%);
+        background: var(--secondary-background-color);
         padding: 35px;
         border-radius: 16px;
         margin-bottom: 30px;
-        border: 1px solid #1f2937;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(128, 128, 128, 0.2);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     }
     .header-title {
         font-size: 32px;
         font-weight: 800;
         margin: 0;
         letter-spacing: -0.5px;
-        color: #f8fafc;
+        color: var(--text-color);
     }
     .header-subtitle {
         font-size: 14px;
-        color: #94a3b8;
+        color: var(--text-color);
+        opacity: 0.8;
         margin-top: 8px;
         margin-bottom: 0;
         line-height: 1.5;
@@ -105,46 +104,47 @@ st.markdown("""
     .metric-card {
         flex: 1;
         min-width: 200px;
-        background: #111827;
-        border: 1px solid #1f2937;
+        background: var(--secondary-background-color);
+        border: 1px solid rgba(128, 128, 128, 0.2);
         border-radius: 12px;
         padding: 20px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .metric-card:hover {
-        border-color: #6366f1;
+        border-color: var(--primary-color);
         transform: translateY(-2px);
         box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
     }
     .metric-title {
         font-size: 11px;
         font-weight: 700;
-        color: #94a3b8;
+        color: var(--text-color);
+        opacity: 0.7;
         text-transform: uppercase;
         letter-spacing: 1px;
     }
     .metric-value-custom {
         font-size: 32px;
         font-weight: 800;
-        color: #f8fafc;
+        color: var(--text-color);
         margin-top: 8px;
     }
     
     /* Recruiter Shortlist Cards */
     .candidate-card-premium {
-        background: #111827;
-        border: 1px solid #1f2937;
+        background: var(--secondary-background-color);
+        border: 1px solid rgba(128, 128, 128, 0.2);
         border-radius: 14px;
         padding: 24px;
         margin-bottom: 18px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .candidate-card-premium:hover {
         transform: translateY(-4px);
-        box-shadow: 0 12px 30px rgba(99, 102, 241, 0.25);
-        border-color: #6366f1;
+        box-shadow: 0 12px 30px rgba(99, 102, 241, 0.15);
+        border-color: var(--primary-color);
     }
     
     /* Signal indicators */
@@ -154,14 +154,14 @@ st.markdown("""
         gap: 12px;
         margin-top: 16px;
         margin-bottom: 16px;
-        background: #161f30;
+        background: var(--background-color);
         padding: 12px 16px;
         border-radius: 10px;
-        border: 1px solid #1f2937;
+        border: 1px solid rgba(128, 128, 128, 0.2);
     }
     .signal-item {
         font-size: 12.5px;
-        color: #cbd5e1;
+        color: var(--text-color);
         display: flex;
         align-items: center;
         gap: 8px;
@@ -181,7 +181,7 @@ st.markdown("""
     /* Fit & Gap analysis box */
     .reasoning-box {
         background: rgba(99, 102, 241, 0.08);
-        border-left: 4px solid #6366f1;
+        border-left: 4px solid var(--primary-color);
         border-top: 1px solid rgba(99, 102, 241, 0.1);
         border-bottom: 1px solid rgba(99, 102, 241, 0.1);
         border-right: 1px solid rgba(99, 102, 241, 0.1);
@@ -189,7 +189,7 @@ st.markdown("""
         border-radius: 8px;
         margin-top: 16px;
         font-size: 13.5px;
-        color: #e2e8f0;
+        color: var(--text-color);
         line-height: 1.6;
     }
     
@@ -206,25 +206,25 @@ st.markdown("""
         letter-spacing: 0.5px;
     }
     .badge-rank { 
-        background-color: #4f46e5; 
-        color: #ffffff; 
-        box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
+        background-color: rgba(99, 102, 241, 0.2); 
+        color: var(--text-color); 
+        border: 1px solid rgba(99, 102, 241, 0.4);
     }
     .badge-score { 
-        background-color: rgba(99, 102, 241, 0.15); 
-        color: #a5b4fc; 
-        border: 1px solid rgba(99, 102, 241, 0.3); 
+        background-color: rgba(16, 185, 129, 0.15); 
+        color: var(--text-color); 
+        border: 1px solid rgba(16, 185, 129, 0.3); 
     }
     .badge-skills { 
-        background-color: rgba(255, 255, 255, 0.05); 
-        color: #cbd5e1; 
-        border: 1px solid #1f2937; 
+        background-color: rgba(128, 128, 128, 0.1); 
+        color: var(--text-color); 
+        border: 1px solid rgba(128, 128, 128, 0.2); 
         text-transform: none;
         font-weight: 500;
     }
     .badge-yoe { 
         background-color: rgba(16, 185, 129, 0.15); 
-        color: #34d399; 
+        color: #10b981; 
         border: 1px solid rgba(16, 185, 129, 0.3);
     }
 
@@ -247,16 +247,16 @@ st.markdown("""
     
     /* Expanders styling */
     .streamlit-expanderHeader {
-        background-color: rgba(17, 24, 39, 0.5) !important;
-        border: 1px solid #1f2937 !important;
+        background-color: rgba(128, 128, 128, 0.05) !important;
+        border: 1px solid rgba(128, 128, 128, 0.2) !important;
         border-radius: 8px !important;
-        color: #cbd5e1 !important;
+        color: var(--text-color) !important;
     }
     .streamlit-expanderContent {
-        background-color: rgba(11, 15, 25, 0.5) !important;
-        border-left: 1px solid #1f2937 !important;
-        border-right: 1px solid #1f2937 !important;
-        border-bottom: 1px solid #1f2937 !important;
+        background-color: var(--background-color) !important;
+        border-left: 1px solid rgba(128, 128, 128, 0.2) !important;
+        border-right: 1px solid rgba(128, 128, 128, 0.2) !important;
+        border-bottom: 1px solid rgba(128, 128, 128, 0.2) !important;
         border-radius: 0 0 8px 8px !important;
         padding: 16px !important;
     }
@@ -271,12 +271,12 @@ st.markdown("""
 <div class="header-container">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
         <div>
-            <h1 class="header-title">💼 REDROB <span style="background: linear-gradient(135deg, #a5b4fc 0%, #818cf8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">AI Recruiter</span></h1>
+            <h1 class="header-title">💼 REDROB <span style="color: var(--primary-color);">AI Recruiter</span></h1>
             <p class="header-subtitle">Candidate discovery dashboard powered by an offline two-stage semantic ranking pipeline & active behavioral signals.</p>
         </div>
         <div style="background: rgba(99, 102, 241, 0.1); padding: 10px 18px; border-radius: 12px; border: 1px solid rgba(99, 102, 241, 0.2); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
-            <span style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: #a5b4fc; display: block; letter-spacing: 1px;">Production Sandbox</span>
-            <span style="font-size: 14px; font-weight: 700; color: #f8fafc;">Team Antigravity v2</span>
+            <span style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--primary-color); display: block; letter-spacing: 1px;">Production Sandbox</span>
+            <span style="font-size: 14px; font-weight: 700; color: var(--text-color);">Team Trio Tech</span>
         </div>
     </div>
 </div>
@@ -333,17 +333,23 @@ w_loc = st.sidebar.slider("Location & Relocation Fit", 0.0, 1.0, 0.10, 0.05)
 
 w_total = w_sem + w_exp + w_beh + w_loc
 
+st.sidebar.markdown("---")
+st.sidebar.markdown("### 🛠️ Advanced Features")
+blind_mode = st.sidebar.toggle("🙈 Enable Unbiased Screening (Hide PII)")
+
 # ==========================================
 # PIPELINE FUNCTIONS
 # ==========================================
-def check_filters_and_compute_heuristic(c):
-    cid = c['candidate_id']
-    profile = c['profile']
-    history = c['career_history']
-    edu = c['education']
-    skills = c['skills']
-    signals = c['redrob_signals']
-    yoe = profile.get('years_of_experience', 0)
+def check_filters_and_compute_heuristic(c, is_sample=False):
+    cid = c.get('candidate_id', 'unknown')
+    profile = c.get('profile') or {}
+    history = c.get('career_history') or []
+    edu = c.get('education') or []
+    skills = c.get('skills') or []
+    signals = c.get('redrob_signals') or {}
+    yoe = profile.get('years_of_experience') or 0.0
+    try: yoe = float(yoe)
+    except: yoe = 0.0
     
     current_date = datetime(2026, 6, 26)
 
@@ -355,7 +361,7 @@ def check_filters_and_compute_heuristic(c):
         return None, "cert_future"
     if any(r.get('duration_months', 0) / 12.0 > yoe + 0.5 for r in history):
         return None, "role_dur_gt_yoe"
-    skill_names = {s['name'].lower() for s in skills}
+    skill_names = {s.get('name', '').lower() for s in skills if s.get('name')}
     if any(sk.lower() not in skill_names for sk in signals.get('skill_assessment_scores', {})):
         return None, "assessment_skill_not_in_profile_skills"
         
@@ -414,8 +420,8 @@ def check_filters_and_compute_heuristic(c):
     if all_service and len(history) > 0:
         return None, "all_service_history"
 
-    has_cv = any(any(cvs in s['name'].lower() for cvs in CV_SKILLS) for s in skills)
-    has_nlp = any(any(nlps in s['name'].lower() for nlps in NLP_SKILLS) for s in skills)
+    has_cv = any(any(cvs in s.get('name', '').lower() for cvs in CV_SKILLS) for s in skills)
+    has_nlp = any(any(nlps in s.get('name', '').lower() for nlps in NLP_SKILLS) for s in skills)
     if has_cv and not has_nlp:
         return None, "cv_only_no_nlp"
 
@@ -442,7 +448,8 @@ def check_filters_and_compute_heuristic(c):
 
     matched_skills_list = []
     for s in skills:
-        sname = s['name'].lower()
+        sname = s.get('name', '').lower()
+        if not sname: continue
         proficiency = s.get('proficiency', 'beginner')
         prof_mult = {"expert": 1.0, "advanced": 0.8, "intermediate": 0.6, "beginner": 0.4}.get(proficiency, 0.4)
         
@@ -469,6 +476,45 @@ def check_filters_and_compute_heuristic(c):
     resp_rate = signals.get('recruiter_response_rate', 0.0)
     heuristic_score += resp_rate * 5.0
 
+    # Career Velocity
+    velocity = False
+    if len(history) >= 2:
+        if is_sample:
+            current_title = history[0].get('title', '').lower()
+            # Fast tracker: Senior title but less than 7 years of experience, or started as intern/junior
+            if ('senior' in current_title or 'lead' in current_title or 'manager' in current_title) and yoe <= 7.0:
+                velocity = True
+            elif any(w in history[-1].get('title', '').lower() for w in ['intern', 'junior', 'trainee']) and len(history) > 1:
+                velocity = True
+        else:
+            first_title = history[-1].get('title', '').lower()
+            last_title = history[0].get('title', '').lower()
+            if any(w in first_title for w in ['intern', 'junior', 'trainee', 'analyst']) and any(w in last_title for w in ['senior', 'lead', 'manager', 'principal', 'head']):
+                velocity = True
+
+    # Salary ROI & Flight Risk
+    salary = signals.get('expected_salary_range_inr_lpa', {})
+    avg_salary = (salary.get('min', 0) + salary.get('max', 0)) / 2
+    high_roi = False
+    
+    if is_sample:
+        # If they are asking for less than 4x their YoE in LPA and match at least 1 skill
+        if avg_salary > 0 and avg_salary <= (yoe * 4.0) and len(matched_skills_list) >= 1:
+            high_roi = True
+    else:
+        if avg_salary > 0 and avg_salary < (yoe * 3.0) and len(matched_skills_list) >= 3:
+            high_roi = True
+        
+    flight_risk = False
+    if len(history) > 0:
+        if is_sample:
+            # If they've been at current company for > 2 years OR they have a short notice period
+            if history[0].get('duration_months', 0) >= 24 or np_days <= 30:
+                flight_risk = True
+        else:
+            if history[0].get('duration_months', 0) >= 36 and signals.get('open_to_work_flag'):
+                flight_risk = True
+
     info = {
         'candidate_id': cid,
         'name': profile.get('anonymized_name'),
@@ -486,7 +532,10 @@ def check_filters_and_compute_heuristic(c):
         'open_to_work': signals.get('open_to_work_flag', False),
         'interview_completion': signals.get('interview_completion_rate', 0.0),
         'offer_acceptance': signals.get('offer_acceptance_rate', -1.0),
-        'career_history': history
+        'career_history': history,
+        'velocity': velocity,
+        'high_roi': high_roi,
+        'flight_risk': flight_risk
     }
 
     return heuristic_score, info
@@ -608,8 +657,9 @@ if run_ranking:
     with st.spinner("Step 2: Performing Honeypot Screening & Filtering..."):
         passed_candidates = []
         filtered_stats = {}
+        is_sample = (data_option == "Sample Dataset (50 Profiles)")
         for c in candidates:
-            h_score, info = check_filters_and_compute_heuristic(c)
+            h_score, info = check_filters_and_compute_heuristic(c, is_sample=is_sample)
             if h_score is not None:
                 passed_candidates.append((h_score, info))
             else:
@@ -794,7 +844,7 @@ if st.session_state.ranked_shortlist is not None:
         st.download_button(
             "📥 Download Shortlist CSV",
             data=csv_string,
-            file_name="team_antigravity.csv",
+            file_name="trio_tech.csv",
             mime="text/csv",
             use_container_width=True
         )
@@ -804,6 +854,22 @@ if st.session_state.ranked_shortlist is not None:
     # ==========================================
     st.markdown("---")
     st.markdown("### 🏆 Recruiter Shortlist")
+    
+    with st.expander("ℹ️ What do the premium tags mean?"):
+        if data_option == "Sample Dataset (50 Profiles)":
+            st.markdown("""
+            *(Demo Mode: Thresholds are slightly loosened for this 50-profile sample so you can see the UI features in action!)*
+            - **🚀 Fast Tracker:** Flags candidates with Senior titles but <7 years experience, or who started as an intern.
+            - **💎 High Value ROI:** Flags candidates asking for a salary (LPA) less than 4x their YoE, with at least 1 matching skill.
+            - **⚠️ Flight Risk:** Flags candidates who have been at their current company for >2 years, or have a short notice period (<=30 days).
+            """)
+        else:
+            st.markdown("""
+            *(Production Mode: Extremely strict thresholds are applied for the massive database to highlight only the top 1%)*
+            - **🚀 Fast Tracker:** Flags candidates who progressed rapidly from Intern/Junior straight to Senior/Lead/Manager roles.
+            - **💎 High Value ROI:** Flags candidates asking for a highly competitive salary (<3x YoE in LPA) despite having 3+ matching technical skills.
+            - **⚠️ Flight Risk:** Flags candidates who are highly likely to leave based on a >3 year tenure combined with active 'open to work' signals.
+            """)
     
     search_query = st.text_input("🔍 Filter matches by name, current title, or matching skills...", "").strip().lower()
     
@@ -824,6 +890,15 @@ if st.session_state.ranked_shortlist is not None:
             # Format skills as tags
             skills_html = "".join([f'<span class="badge-premium badge-skills">{s}</span>' for s in info['matched_skills'][:5]])
             
+            # Feature: Velocity, ROI, Flight Risk Tags
+            velocity_html = '<span class="badge-premium" style="background-color: #f59e0b; color: #fff;">🚀 Fast Tracker</span>' if info.get('velocity') else ""
+            roi_html = '<span class="badge-premium" style="background-color: #8b5cf6; color: #fff;">💎 High Value ROI</span>' if info.get('high_roi') else ""
+            flight_html = '<span class="badge-premium" style="background-color: #ef4444; color: #fff;">⚠️ Flight Risk</span>' if info.get('flight_risk') else ""
+            extra_tags = velocity_html + roi_html + flight_html
+            
+            # Feature: Blind Audition Mode
+            display_name = f"Candidate #{info['candidate_id'][-5:]}" if blind_mode else info['name']
+            
             # Behavioral signals logic colors
             np_days = info['notice_period']
             np_dot = "dot-green" if np_days <= 30 else ("dot-orange" if np_days <= 90 else "dot-red")
@@ -834,52 +909,51 @@ if st.session_state.ranked_shortlist is not None:
             last_active = info['last_active']
             
             st.markdown(f"""
-            <div class="candidate-card-premium">
-                <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 10px;">
-                    <div>
-                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                            <span class="badge-premium badge-rank">Rank {r_idx}</span>
-                            <span class="badge-premium badge-score">Match Score: {score:.4f}</span>
-                            <span class="badge-premium badge-yoe">{info['yoe']} YoE</span>
-                        </div>
-                        <h3 style="margin: 12px 0 4px 0; color: #f8fafc; font-size: 22px; font-weight: 700;">{info['name']}</h3>
-                        <p style="margin: 0 0 12px 0; color: #a5b4fc; font-weight: 600; font-size: 14.5px;">{info['title']} &bull; <span style="color: #94a3b8; font-weight: normal;">{info['location']}</span></p>
-                        <div style="margin-top: 6px; margin-bottom: 6px;">
-                            {skills_html}
-                        </div>
-                    </div>
-                    <div style="text-align: right; min-width: 120px;">
-                        <span style="font-size: 10px; color: #94a3b8; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Similarity</span>
-                        <div style="font-size: 24px; font-weight: 800; color: #818cf8; margin-top: 4px;">{sem_sim:.4f}</div>
-                    </div>
-                </div>
-                
-                <div class="signal-container">
-                    <div class="signal-item">
-                        <span class="signal-dot {np_dot}"></span>
-                        Notice: {np_days} days
-                    </div>
-                    <div class="signal-item">
-                        <span class="signal-dot {resp_dot}"></span>
-                        Response: {resp_rate}%
-                    </div>
-                    <div class="signal-item">
-                        <span class="signal-dot dot-green"></span>
-                        Active: {last_active}
-                    </div>
-                    <div class="signal-item">
-                        <span class="signal-dot dot-green" style="background-color: {'#10b981' if info['willing_to_relocate'] else '#475569'}; box-shadow: 0 0 8px {'#10b981' if info['willing_to_relocate'] else '#475569'};"></span>
-                        Relocating: {'Yes' if info['willing_to_relocate'] else 'No'}
-                    </div>
-                </div>
-                
-                <div class="reasoning-box">
-                    <strong>🔍 Fit & Gap Analysis:</strong> {reasoning}
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+<div class="candidate-card-premium">
+<div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 10px;">
+<div>
+<div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+<span class="badge-premium badge-rank">Rank {r_idx}</span>
+<span class="badge-premium badge-score">Match Score: {score:.4f}</span>
+<span class="badge-premium badge-yoe">{info['yoe']} YoE</span>
+{extra_tags}
+</div>
+<h3 style="margin: 12px 0 4px 0; color: var(--text-color); font-size: 22px; font-weight: 700;">{display_name}</h3>
+<p style="margin: 0 0 12px 0; color: var(--primary-color); font-weight: 600; font-size: 14.5px;">{info['title']} &bull; <span style="color: var(--text-color); opacity: 0.7; font-weight: normal;">{info['location']}</span></p>
+<div style="margin-top: 6px; margin-bottom: 6px;">
+{skills_html}
+</div>
+</div>
+<div style="text-align: right; min-width: 120px;">
+<span style="font-size: 10px; color: var(--text-color); opacity: 0.7; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Similarity</span>
+<div style="font-size: 24px; font-weight: 800; color: var(--primary-color); margin-top: 4px;">{sem_sim:.4f}</div>
+</div>
+</div>
+<div class="signal-container">
+<div class="signal-item">
+<span class="signal-dot {np_dot}"></span>
+Notice: {np_days} days
+</div>
+<div class="signal-item">
+<span class="signal-dot {resp_dot}"></span>
+Response: {resp_rate}%
+</div>
+<div class="signal-item">
+<span class="signal-dot dot-green"></span>
+Active: {last_active}
+</div>
+<div class="signal-item">
+<span class="signal-dot dot-green" style="background-color: {'#10b981' if info['willing_to_relocate'] else '#475569'}; box-shadow: 0 0 8px {'#10b981' if info['willing_to_relocate'] else '#475569'};"></span>
+Relocating: {'Yes' if info['willing_to_relocate'] else 'No'}
+</div>
+</div>
+<div class="reasoning-box">
+<strong>🔍 Fit & Gap Analysis:</strong> {reasoning}
+</div>
+</div>
+""", unsafe_allow_html=True)
             
-            with st.expander(f"📝 Full Profile & Career Timeline - {info['name']}"):
+            with st.expander(f"📝 Full Profile & Career Timeline - {display_name}"):
                 col_ex1, col_ex2 = st.columns(2)
                 with col_ex1:
                     st.markdown("**Headline & Background:**")
@@ -898,5 +972,12 @@ if st.session_state.ranked_shortlist is not None:
                     st.markdown(f"**{job['title']}** at *{job['company']}* ({job['start_date']} to {job['end_date'] or 'Present'})")
                     st.caption(job['description'])
                     st.markdown("---")
+                
+                # Feature: Draft Email
+                if st.button(f"🪄 Draft Outreach Email for {display_name}", key=f"email_{info['candidate_id']}"):
+                    first_name = display_name.split(' ')[0] if not blind_mode else "Candidate"
+                    skills_str = ", ".join(info['matched_skills'][:3]) if info['matched_skills'] else "your technical skills"
+                    email_draft = f"Subject: Exciting Opportunity for a {info['title']}\n\nHi {first_name},\n\nI was incredibly impressed by your background as a {info['title']} and your strong expertise in {skills_str}. Given your {info['yoe']} years of experience, I think you'd be a fantastic fit for a Senior role we are currently hiring for.\n\nI saw you are currently based in {info['location']}. Would you be open to a quick 10-minute chat this week to discuss?\n\nBest regards,\n[Your Name]"
+                    st.text_area("✨ Generated Draft:", value=email_draft, height=220, key=f"draft_text_{info['candidate_id']}")
 else:
     st.info("Initiate matching by clicking the search button above.")

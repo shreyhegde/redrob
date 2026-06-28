@@ -8,7 +8,7 @@ from sentence_transformers import SentenceTransformer
 # Define file paths
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATASET_PATH = os.path.join(BASE_DIR, "[PUB] India_runs_data_and_ai_challenge", "India_runs_data_and_ai_challenge", "candidates.jsonl")
-OUTPUT_PATH = os.path.join(BASE_DIR, "team_antigravity.csv")
+OUTPUT_PATH = os.path.join(BASE_DIR, "trio_tech.csv")
 MODEL_DIR = os.path.join(BASE_DIR, "local_model")
 
 # Constants
@@ -53,13 +53,15 @@ def check_filters_and_compute_heuristic(c):
     Stage 0 & 1: Filters out honeypots/exclusions and computes a fast heuristic score.
     Returns (heuristic_score, candidate_info_dict) if passed, else (None, reason).
     """
-    cid = c['candidate_id']
-    profile = c['profile']
-    history = c['career_history']
-    edu = c['education']
-    skills = c['skills']
-    signals = c['redrob_signals']
-    yoe = profile.get('years_of_experience', 0)
+    cid = c.get('candidate_id', 'unknown')
+    profile = c.get('profile') or {}
+    history = c.get('career_history') or []
+    edu = c.get('education') or []
+    skills = c.get('skills') or []
+    signals = c.get('redrob_signals') or {}
+    yoe = profile.get('years_of_experience') or 0.0
+    try: yoe = float(yoe)
+    except: yoe = 0.0
     
     current_date = datetime(2026, 6, 26)
 
@@ -81,7 +83,7 @@ def check_filters_and_compute_heuristic(c):
         return None, "role_dur_gt_yoe"
         
     # D. assessment score for a skill not in the profile skills list
-    skill_names = {s['name'].lower() for s in skills}
+    skill_names = {s.get('name', '').lower() for s in skills if s.get('name')}
     if any(sk.lower() not in skill_names for sk in signals.get('skill_assessment_scores', {})):
         return None, "assessment_skill_not_in_profile_skills"
         
@@ -153,8 +155,8 @@ def check_filters_and_compute_heuristic(c):
         return None, "all_service_history"
 
     # C. Computer vision / speech / robotics primary without NLP/IR exposure
-    has_cv = any(any(cvs in s['name'].lower() for cvs in CV_SKILLS) for s in skills)
-    has_nlp = any(any(nlps in s['name'].lower() for nlps in NLP_SKILLS) for s in skills)
+    has_cv = any(any(cvs in s.get('name', '').lower() for cvs in CV_SKILLS) for s in skills)
+    has_nlp = any(any(nlps in s.get('name', '').lower() for nlps in NLP_SKILLS) for s in skills)
     if has_cv and not has_nlp:
         return None, "cv_only_no_nlp"
 
@@ -189,7 +191,8 @@ def check_filters_and_compute_heuristic(c):
     skills_match_count = 0
     matched_skills_list = []
     for s in skills:
-        sname = s['name'].lower()
+        sname = s.get('name', '').lower()
+        if not sname: continue
         proficiency = s.get('proficiency', 'beginner')
         prof_mult = {"expert": 1.0, "advanced": 0.8, "intermediate": 0.6, "beginner": 0.4}.get(proficiency, 0.4)
         
@@ -330,9 +333,17 @@ def generate_reasoning(info, score, sem_sim):
 def main():
     print("Initiating upgraded candidate screening and ranking...")
     
-    if not os.path.exists(DATASET_PATH):
-        print(f"Error: Dataset not found at {DATASET_PATH}")
-        return
+    local_dataset_path = DATASET_PATH
+    is_jsonl = True
+    if not os.path.exists(local_dataset_path):
+        sample_path = os.path.join(BASE_DIR, "[PUB] India_runs_data_and_ai_challenge", "India_runs_data_and_ai_challenge", "sample_candidates.json")
+        if os.path.exists(sample_path):
+            print(f"Warning: Full dataset not found. Falling back to sample dataset at {sample_path}")
+            local_dataset_path = sample_path
+            is_jsonl = False
+        else:
+            print(f"Error: Dataset not found at {local_dataset_path} or {sample_path}")
+            return
         
     # ============================================================================
     # STAGE 1: Fast filtering & Heuristic Screening
@@ -341,18 +352,27 @@ def main():
     candidates_passed = []
     count = 0
     
-    with open(DATASET_PATH, 'r', encoding='utf-8') as f:
-        for line in f:
-            if not line.strip():
-                continue
-            count += 1
-            c = json.loads(line)
-            h_score, info = check_filters_and_compute_heuristic(c)
-            if h_score is not None:
-                candidates_passed.append((h_score, info))
-                
-            if count % 20000 == 0:
-                print(f"Processed {count} candidates...")
+    if is_jsonl:
+        with open(local_dataset_path, 'r', encoding='utf-8') as f:
+            for line in f:
+                if not line.strip():
+                    continue
+                count += 1
+                c = json.loads(line)
+                h_score, info = check_filters_and_compute_heuristic(c)
+                if h_score is not None:
+                    candidates_passed.append((h_score, info))
+                    
+                if count % 20000 == 0:
+                    print(f"Processed {count} candidates...")
+    else:
+        with open(local_dataset_path, 'r', encoding='utf-8') as f:
+            candidates = json.load(f)
+            for c in candidates:
+                count += 1
+                h_score, info = check_filters_and_compute_heuristic(c)
+                if h_score is not None:
+                    candidates_passed.append((h_score, info))
                 
     print(f"Total candidates processed: {count}")
     print(f"Candidates passing initial filters: {len(candidates_passed)}")
