@@ -26,7 +26,7 @@ team_members:
 # Code and reproducibility
 # ============================================================================
 github_repo: "https://github.com/shreyhegde/redrob.git" 
-sandbox_link: "https://huggingface.co/spaces/shreyhegde/redrob" 
+sandbox_link: "https://redrob-d4wd5xb7ibslcrrmzkq3wv.streamlit.app/" 
 
 reproduce_command: "python rank_candidates.py"
 # The single command that produces trio_tech.csv from candidates.jsonl.
